@@ -3,11 +3,9 @@
 </p>
 
 <div align="center">
-  <h1>The AI Merge</h1>
   <h3>Building, shipping, and operating real AI systems.</h3>
   <p><i>From models to systems.</i></p>
 </div>
-
 <div align="center">
   <a href="https://multimodalai.substack.com/">
     <img src="https://img.shields.io/static/v1?label&logo=substack&message=Newsletter&style=for-the-badge&color=gray" alt="Newsletter">
@@ -15,10 +13,10 @@
   <a href="https://www.linkedin.com/in/arazvant/">
     <img src="https://img.shields.io/static/v1?label&logo=linkedin&message=LinkedIn&style=for-the-badge&color=blue" alt="LinkedIn">
   </a>
-  <a href="https://www.youtube.com/@neuralaibits">
+  <a href="https://www.youtube.com/@theaimerge">
     <img src="https://img.shields.io/static/v1?label&logo=youtube&message=YouTube&style=for-the-badge&color=red" alt="YouTube">
   </a>
-  <a href="https://multimodalai.substack.com/p/courses">
+  <a href="https://read.theaimerge/p/courses">
     <img src="https://img.shields.io/static/v1?label&logo=substack&message=Courses&style=for-the-badge&color=gray" alt="Courses">
   </a>
 </div>
