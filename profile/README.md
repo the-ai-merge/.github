@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/neural-bits/.github/main/media/[Git][Blue][Banner][Center]-EmailHeader.png">
+  <img src="https://raw.githubusercontent.com/neural-bits/.github/main/media/[TAIM] - Newsletter-Email-Banner4x.png">
 </p>
 
 <div align="center">
@@ -59,23 +59,3 @@ All repositories aim to show how components connect inside a larger system.
 These projects are designed as **complete systems**, not standalone examples.
 
 ---
-
-## Repositories by Focus Area
-
-| Area | Description | Repository |
-|----|------------|------------|
-| AI Systems | End-to-end systems and system design | — |
-| Infrastructure & Deployment | Inference, optimization, and production deployment | 🚀 [Production Hub](https://github.com/neural-bits/deep-learning-resources.git) |
-| Computer Vision | Vision systems: detection, segmentation, and pipelines | 🚀 [Computer Vision Hub](https://github.com/neural-bits/computer-vision-hub) |
-| AI Programming | Low-level and performance-oriented AI programming | 🚀 [AI Programming Hub](https://github.com/neural-bits/ai-programming-hub) |
-| MLOps & Operations | Monitoring, pipelines, reliability, and operations | — |
-
----
-
-## Stay Connected
-
-- 📬 Newsletter - https://read.theaimerge.com
-- 🎥 Videos - https://www.youtube.com/@theaimerge
-- 💬 LinkedIn - https://www.linkedin.com/in/arazvant  
-
-Most repositories are accompanied by long-form explanations and walkthroughs published alongside the code.
