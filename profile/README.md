@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/neural-bits/.github/main/media/[TAIM] - Newsletter-Email-Banner4x.png">
+  <img src="https://raw.githubusercontent.com/neural-bits/.github/main/media/[TAIM] - Newsletter-Email-Banner.png">
 </p>
 
 <div align="center">
