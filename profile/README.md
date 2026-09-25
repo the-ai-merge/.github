@@ -12,10 +12,10 @@
 </p>
 
 <p align="center">
-<a href="https://theaimerge.com"><img src="https://img.shields.io/badge/theaimerge.com-D95319?style=flat-square&logoColor=F8F6F2" /></a>
-<a href="https://read.theaimerge.com"><img src="https://img.shields.io/badge/-Newsletter-1C1B19?style=flat-square&logo=substack&logoColor=F8F6F2" /></a>
-<a href="https://www.linkedin.com/in/arazvant/"><img src="https://img.shields.io/badge/-LinkedIn-1C1B19?style=flat-square&logo=linkedin&logoColor=F8F6F2" /></a>
-<a href="https://www.youtube.com/@theaimerge"><img src="https://img.shields.io/badge/-YouTube-1C1B19?style=flat-square&logo=youtube&logoColor=F8F6F2" /></a>
+<a href="https://theaimerge.com"><img src="./assets/pill-website.svg?v=1" alt="theaimerge.com" /></a>
+<a href="https://read.theaimerge.com"><img src="./assets/pill-newsletter.svg?v=1" alt="Newsletter" /></a>
+<a href="https://www.linkedin.com/in/arazvant/"><img src="./assets/pill-linkedin.svg?v=1" alt="LinkedIn" /></a>
+<a href="https://www.youtube.com/@theaimerge"><img src="./assets/pill-youtube.svg?v=1" alt="YouTube" /></a>
 </p>
 
 <br/>
