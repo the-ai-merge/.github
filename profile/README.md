@@ -49,6 +49,12 @@ These repos focus on the engineering around AI systems — the parts that matter
 
 <br/>
 
+### What the repos use
+
+<img src="./assets/stack-covered.svg?v=1" width="100%" alt="Python, PyTorch, CUDA, TensorRT, Triton, Jetson, vLLM, ONNX, HuggingFace, OpenCV, LangChain, LangGraph, Pydantic, MCP, Ollama, Qdrant, Ray, MLflow, Weights &amp; Biases, OpenTelemetry, Docker, Kubernetes, FastAPI, AWS" />
+
+<br/>
+
 ### Courses & larger projects
 
 Built around complete AI systems, not isolated snippets.

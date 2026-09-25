@@ -1,0 +1,161 @@
+"""Generate uniform tech-stack tile grids as self-hosted SVGs.
+
+Every tile is the same size: charcoal rounded square, cream glyph (simple-icons)
+or a cream monogram when no official logo exists, with a label underneath.
+"""
+import os
+import re
+import urllib.request
+
+CREAM = "#F8F6F2"
+CHARCOAL = "#1C1B19"
+TERRACOTTA = "#D95319"
+MUTED = "#6B6960"
+
+CACHE = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".icon_cache")
+OUT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+TILE = 36
+GLYPH = 19
+GAP_X = 12
+GAP_Y = 12
+LABEL_H = 12
+PAD = 20
+PER_ROW = 15
+FONT = "Helvetica Neue, Helvetica, Arial, sans-serif"
+
+
+def fetch_icon(spec):
+    """Fetch an icon by spec and return (path_d_list, (minx, miny, w, h)).
+
+    spec is either a bare simple-icons slug ("python"), or prefixed:
+      "si:<slug>"          simple-icons  (24x24 viewBox)
+      "dv:<name>-<variant> devicon       (usually 128x128)
+    """
+    if spec.startswith("dv:"):
+        name = spec[3:]
+        base = name.rsplit("-", 1)[0]
+        url = (
+            "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/%s/%s.svg"
+            % (base, name)
+        )
+        cache_key = "dv_" + name
+    else:
+        slug = spec[3:] if spec.startswith("si:") else spec
+        url = "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/%s.svg" % slug
+        cache_key = "si_" + slug
+
+    os.makedirs(CACHE, exist_ok=True)
+    path = os.path.join(CACHE, cache_key + ".svg")
+    if not os.path.exists(path):
+        urllib.request.urlretrieve(url, path)
+    with open(path) as f:
+        content = f.read()
+
+    paths = re.findall(r'<path[^>]*\sd="([^"]+)"', content)
+    if not paths:
+        raise ValueError("no path found for %s" % spec)
+
+    vb = re.search(r'viewBox="([\d.\-]+)\s+([\d.\-]+)\s+([\d.\-]+)\s+([\d.\-]+)"', content)
+    box = tuple(float(v) for v in vb.groups()) if vb else (0.0, 0.0, 24.0, 24.0)
+    return paths, box
+
+
+def monogram_size(text):
+    return {1: 21, 2: 17, 3: 13}.get(len(text), 11)
+
+
+def build(items, out_name):
+    """items: list of (label, slug_or_None, monogram_or_None)"""
+    rows = [items[i : i + PER_ROW] for i in range(0, len(items), PER_ROW)]
+    cell_w = TILE + GAP_X
+    cell_h = TILE + LABEL_H + GAP_Y
+    # Fixed panel width regardless of item count, so tiles render at the same
+    # scale in every ladder when the images sit side by side in the README.
+    width = PAD * 2 + cell_w * PER_ROW - GAP_X
+    height = PAD * 2 + cell_h * len(rows) - GAP_Y
+
+    parts = [
+        '<svg width="%d" height="%d" viewBox="0 0 %d %d" xmlns="http://www.w3.org/2000/svg">'
+        % (width, height, width, height),
+        '<rect width="%d" height="%d" rx="16" fill="%s"/>' % (width, height, CREAM),
+    ]
+
+    for r, row in enumerate(rows):
+        for c, (label, slug, mono) in enumerate(row):
+            x = PAD + c * cell_w
+            y = PAD + r * cell_h
+            parts.append(
+                '<rect x="%d" y="%d" width="%d" height="%d" rx="12" fill="%s"/>'
+                % (x, y, TILE, TILE, CHARCOAL)
+            )
+            if slug:
+                paths, (bx, by, bw, bh) = fetch_icon(slug)
+                edge = max(bw, bh)
+                scale = GLYPH / edge
+                # centre the icon's own box inside the tile
+                gx = x + (TILE - bw * scale) / 2.0 - bx * scale
+                gy = y + (TILE - bh * scale) / 2.0 - by * scale
+                glyphs = "".join(
+                    '<path d="%s" fill="%s"/>' % (d, CREAM) for d in paths
+                )
+                parts.append(
+                    '<g transform="translate(%.2f,%.2f) scale(%.4f)">%s</g>'
+                    % (gx, gy, scale, glyphs)
+                )
+            else:
+                parts.append(
+                    '<text x="%.1f" y="%.1f" text-anchor="middle" font-family="%s" '
+                    'font-weight="700" font-size="%d" fill="%s">%s</text>'
+                    % (
+                        x + TILE / 2.0,
+                        y + TILE / 2.0 + monogram_size(mono) * 0.36,
+                        FONT,
+                        monogram_size(mono),
+                        CREAM,
+                        mono,
+                    )
+                )
+            parts.append(
+                '<text x="%.1f" y="%.1f" text-anchor="middle" font-family="%s" '
+                'font-weight="500" font-size="8" fill="%s">%s</text>'
+                % (x + TILE / 2.0, y + TILE + 10, FONT, MUTED, label)
+            )
+
+    parts.append("</svg>")
+    os.makedirs(OUT_DIR, exist_ok=True)
+    out = os.path.join(OUT_DIR, out_name)
+    with open(out, "w") as f:
+        f.write("\n".join(parts) + "\n")
+    print("wrote %s (%dx%d, %d tiles)" % (out, width, height, len(items)))
+
+
+COVERED = [
+    ("Python", "python", None),
+    ("PyTorch", "pytorch", None),
+    ("CUDA", "nvidia", None),
+    ("TensorRT", "nvidia", None),
+    ("Triton", "nvidia", None),
+    ("Jetson", "nvidia", None),
+    ("vLLM", "vllm", None),
+    ("ONNX", "onnx", None),
+    ("HF", "huggingface", None),
+    ("OpenCV", "opencv", None),
+    ("LangChain", "langchain", None),
+    ("LangGraph", "langgraph", None),
+    ("Pydantic", "pydantic", None),
+    ("MCP", "modelcontextprotocol", None),
+    ("Ollama", "ollama", None),
+    ("Qdrant", "qdrant", None),
+    ("Ray", "ray", None),
+    ("MLflow", "mlflow", None),
+    ("W&amp;B", "weightsandbiases", None),
+    ("OTel", "opentelemetry", None),
+    ("Docker", "docker", None),
+    ("K8s", "kubernetes", None),
+    ("FastAPI", "fastapi", None),
+    ("AWS", "amazonwebservices", None),
+]
+
+if __name__ == "__main__":
+    build(COVERED, "stack-covered.svg")
